@@ -171,50 +171,17 @@ const Index = () => {
           </p>
         </div>
 
-        {/* Blog Grid */}
-        {blogs.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 justify-items-center">
-            {blogs.map((blog) => (
-              <BlogCard key={blog.id} blog={blog} />
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-16">
-            <Icon
-              name="BookOpen"
-              size={64}
-              className="mx-auto text-gray-300 mb-4"
-            />
-            <h3 className="text-xl font-semibold text-gray-600 mb-2">
-              Пока нет блогов
-            </h3>
-            <p className="text-gray-500">
-              Блоги появятся здесь, как только их добавят
-            </p>
-          </div>
-        )}
-
-        {/* Loading Indicator */}
-        {loading && (
-          <div className="flex justify-center items-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
-            <span className="ml-3 text-gray-600">
-              Загружаем больше блогов...
-            </span>
-          </div>
-        )}
-
-        {/* End of Content */}
-        {!hasMore && blogs.length > 0 && (
-          <div className="text-center py-12 border-t border-gray-200 mt-12">
-            <Icon
-              name="CheckCircle"
-              size={48}
-              className="mx-auto text-green-500 mb-3"
-            />
-            <p className="text-gray-600">Вы просмотрели все доступные блоги</p>
-          </div>
-        )}
+        {/* Section Content */}
+        <div className="text-center py-8">
+          <Icon
+            name="BookOpen"
+            size={64}
+            className="mx-auto text-gray-300 mb-4"
+          />
+          <p className="text-gray-500">
+            Скоро здесь появятся интересные статьи
+          </p>
+        </div>
       </main>
 
       {/* Footer */}
