@@ -6,15 +6,30 @@ import { Badge } from "@/components/ui/badge";
 import Icon from "@/components/ui/icon";
 import EditProfileDialog from "@/components/EditProfileDialog";
 import { useAuth } from "@/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Profile() {
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   if (!user) return null;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-indigo-100 p-4">
       <div className="max-w-4xl mx-auto space-y-6">
+        {/* Header with back button */}
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-2xl font-bold text-gray-900">Мой профиль</h2>
+          <Button
+            onClick={() => navigate("/")}
+            variant="outline"
+            className="flex items-center gap-2"
+          >
+            <Icon name="Home" size={16} />
+            На главную
+          </Button>
+        </div>
+
         {/* Profile Header */}
         <Card className="relative overflow-hidden">
           <div
