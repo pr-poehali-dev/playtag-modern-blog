@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Dialog,
   DialogContent,
@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/select";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Icon from "@/components/ui/icon";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface EditProfileDialogProps {
   children: React.ReactNode;
@@ -35,18 +36,29 @@ export default function EditProfileDialog({
     "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150",
   );
   const [coverUrl, setCoverUrl] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-  const handleSave = () => {
-    // Здесь будет логика сохранения
-    console.log("Сохранение профиля:", {
-      firstName,
-      lastName,
-      day,
-      month,
-      year,
-      avatarUrl,
-      coverUrl,
-    });
+  const { updateUser } = useAuth();
+
+  const handleSave = async () => {
+    setIsLoading(true);
+
+    try {
+      await updateUser({
+        name: firstName,
+        surname: lastName,
+        avatar: avatarUrl,
+        coverImage: coverUrl,
+        birthDate: `${year}-${month}-${day}`,
+      });
+
+      setIsOpen(false);
+    } catch (error) {
+      console.error("Ошибка сохранения профиля:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   // Генерация дней месяца
@@ -75,7 +87,7 @@ export default function EditProfileDialog({
   );
 
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
@@ -204,10 +216,15 @@ export default function EditProfileDialog({
           <div className="flex gap-3 pt-4">
             <Button
               onClick={handleSave}
+              disabled={isLoading}
               className="bg-purple-600 hover:bg-purple-700 flex-1"
             >
-              <Icon name="Save" size={16} className="mr-2" />
-              Сохранить изменения
+              <Icon
+                name={isLoading ? "Loader2" : "Save"}
+                size={16}
+                className={`mr-2 ${isLoading ? "animate-spin" : ""}`}
+              />
+              {isLoading ? "Сохранение..." : "Сохранить изменения"}
             </Button>
             <Button variant="outline" className="px-6">
               Отмена
