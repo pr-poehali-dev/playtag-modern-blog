@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Icon from "@/components/ui/icon";
+import EditProfileDialog from "@/components/EditProfileDialog";
 
 export default function Profile() {
   return (
@@ -40,10 +41,12 @@ export default function Profile() {
                   </Badge>
                 </div>
               </div>
-              <Button className="bg-purple-600 hover:bg-purple-700">
-                <Icon name="Edit" size={16} className="mr-2" />
-                Редактировать
-              </Button>
+              <EditProfileDialog>
+                <Button className="bg-purple-600 hover:bg-purple-700">
+                  <Icon name="Edit" size={16} className="mr-2" />
+                  Редактировать
+                </Button>
+              </EditProfileDialog>
             </div>
           </CardContent>
         </Card>
