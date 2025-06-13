@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
+import { toast } from "sonner";
 import Icon from "@/components/ui/icon";
 
 export default function AddBlog() {
@@ -12,6 +13,41 @@ export default function AddBlog() {
   const [mediaType, setMediaType] = useState<"photo" | "video" | "audio">(
     "photo",
   );
+  const [isPublishing, setIsPublishing] = useState(false);
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    content: "",
+    aiPrompt: "",
+  });
+
+  const handleInputChange = (field: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handlePublish = async () => {
+    if (!formData.title.trim() || !formData.content.trim()) {
+      toast.error("Заполните заголовок и содержание поста");
+      return;
+    }
+
+    setIsPublishing(true);
+
+    try {
+      // Симуляция публикации
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      toast.success("🚀 Пост успешно опубликован!");
+
+      // Очистка формы
+      setFormData({ title: "", description: "", content: "", aiPrompt: "" });
+      setAiCover(false);
+    } catch (error) {
+      toast.error("Ошибка при публикации поста");
+    } finally {
+      setIsPublishing(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -31,6 +67,8 @@ export default function AddBlog() {
                 id="title"
                 placeholder="Введите заголовок поста..."
                 className="text-lg"
+                value={formData.title}
+                onChange={(e) => handleInputChange("title", e.target.value)}
               />
             </div>
 
@@ -40,6 +78,10 @@ export default function AddBlog() {
               <Input
                 id="description"
                 placeholder="Краткое описание для превью..."
+                value={formData.description}
+                onChange={(e) =>
+                  handleInputChange("description", e.target.value)
+                }
               />
             </div>
 
@@ -49,7 +91,10 @@ export default function AddBlog() {
               <Textarea
                 id="content"
                 placeholder="Напишите содержание поста..."
-                className="min-h-[300px]"
+                rows={8}
+                className="min-h-[200px] resize-none"
+                value={formData.content}
+                onChange={(e) => handleInputChange("content", e.target.value)}
               />
             </div>
 
@@ -119,15 +164,27 @@ export default function AddBlog() {
                 <Input
                   id="ai-prompt"
                   placeholder="Космос, звезды, планеты..."
+                  value={formData.aiPrompt}
+                  onChange={(e) =>
+                    handleInputChange("aiPrompt", e.target.value)
+                  }
                 />
               </div>
             )}
 
             {/* Actions */}
             <div className="flex gap-4 pt-6">
-              <Button className="flex-1 bg-purple-600 hover:bg-purple-700">
-                <Icon name="Send" size={16} className="mr-2" />
-                Опубликовать
+              <Button
+                className="flex-1 bg-purple-600 hover:bg-purple-700"
+                onClick={handlePublish}
+                disabled={isPublishing}
+              >
+                <Icon
+                  name={isPublishing ? "Loader2" : "Send"}
+                  size={16}
+                  className={`mr-2 ${isPublishing ? "animate-spin" : ""}`}
+                />
+                {isPublishing ? "Публикую..." : "Опубликовать"}
               </Button>
               <Button variant="outline">
                 <Icon name="Save" size={16} className="mr-2" />
