@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -62,6 +63,17 @@ export default function Reels() {
 
   return (
     <div className="h-screen bg-black overflow-hidden relative flex items-center justify-center">
+      {/* Home Button */}
+      <Link to="/" className="absolute top-4 left-4 z-20">
+        <Button
+          variant="outline"
+          size="icon"
+          className="bg-white/20 backdrop-blur border-white/30 hover:bg-white/30"
+        >
+          <Icon name="Home" size={20} className="text-white" />
+        </Button>
+      </Link>
+
       {/* Mobile: Swipe Container */}
       <div className="w-full max-w-sm mx-auto h-full relative">
         <div
