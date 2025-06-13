@@ -102,21 +102,36 @@ export default function EditProfileDialog({
             <Label>Обложка профиля</Label>
             <div className="relative">
               <div
-                className="h-32 w-full rounded-lg bg-gradient-to-r from-purple-500 to-indigo-600 flex items-center justify-center"
+                className="h-32 w-full rounded-lg bg-gradient-to-r from-purple-500 to-indigo-600 flex items-center justify-center cursor-pointer relative overflow-hidden"
                 style={
                   coverUrl
                     ? {
                         backgroundImage: `url(${coverUrl})`,
                         backgroundSize: "cover",
+                        backgroundPosition: "center",
                       }
                     : {}
                 }
+                onClick={() => document.getElementById("cover-upload")?.click()}
               >
-                <Button variant="secondary" size="sm">
+                <Button variant="secondary" size="sm" className="z-10">
                   <Icon name="Upload" size={16} className="mr-2" />
                   Загрузить обложку
                 </Button>
               </div>
+              <input
+                id="cover-upload"
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    const url = URL.createObjectURL(file);
+                    setCoverUrl(url);
+                  }
+                }}
+              />
               <Input
                 placeholder="Или вставьте ссылку на изображение"
                 value={coverUrl}
@@ -130,7 +145,12 @@ export default function EditProfileDialog({
           <div className="space-y-2">
             <Label>Фото профиля</Label>
             <div className="flex items-center gap-4">
-              <Avatar className="w-20 h-20">
+              <Avatar
+                className="w-20 h-20 cursor-pointer"
+                onClick={() =>
+                  document.getElementById("avatar-upload")?.click()
+                }
+              >
                 <AvatarImage src={avatarUrl} />
                 <AvatarFallback className="text-lg">
                   {firstName[0]}
@@ -144,7 +164,30 @@ export default function EditProfileDialog({
                   onChange={(e) => setAvatarUrl(e.target.value)}
                 />
               </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() =>
+                  document.getElementById("avatar-upload")?.click()
+                }
+              >
+                <Icon name="Upload" size={16} className="mr-2" />
+                Загрузить
+              </Button>
             </div>
+            <input
+              id="avatar-upload"
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) {
+                  const url = URL.createObjectURL(file);
+                  setAvatarUrl(url);
+                }
+              }}
+            />
           </div>
 
           {/* Имя и фамилия */}
