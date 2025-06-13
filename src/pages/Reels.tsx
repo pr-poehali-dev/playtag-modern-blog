@@ -61,101 +61,117 @@ export default function Reels() {
   };
 
   return (
-    <div className="h-screen bg-black overflow-hidden relative">
+    <div className="h-screen bg-black overflow-hidden relative flex items-center justify-center">
       {/* Mobile: Swipe Container */}
-      <div className="h-full relative">
+      <div className="w-full max-w-sm mx-auto h-full relative">
         <div
           className="h-full transition-transform duration-300 ease-out"
           style={{ transform: `translateY(-${currentReel * 100}vh)` }}
         >
           {reels.map((reel, index) => (
-            <div key={reel.id} className="h-screen relative flex-shrink-0">
-              {/* Video Background */}
-              <div className="absolute inset-0">
-                <img
-                  src={reel.video}
-                  alt={reel.title}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-black/20" />
-              </div>
-
-              {/* Content Overlay */}
-              <div className="absolute inset-0 flex">
-                {/* Left: Info */}
-                <div className="flex-1 flex flex-col justify-end p-4 pb-20">
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-3">
-                      <Avatar className="w-12 h-12 border-2 border-white">
-                        <AvatarImage src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=50" />
-                        <AvatarFallback>ЮР</AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <p className="text-white font-semibold">
-                          {reel.author}
-                        </p>
-                        <p className="text-gray-300 text-sm">{reel.username}</p>
-                      </div>
-                      <Button variant="outline" size="sm" className="ml-auto">
-                        Подписаться
-                      </Button>
-                    </div>
-
-                    <h3 className="text-white text-lg font-medium">
-                      {reel.title}
-                    </h3>
-
-                    <p className="text-gray-300 text-sm">
-                      {reel.views} просмотров
-                    </p>
-                  </div>
+            <div
+              key={reel.id}
+              className="h-screen relative flex-shrink-0 flex items-center justify-center"
+            >
+              {/* Video Container with 9:16 aspect ratio */}
+              <div
+                className="relative w-full max-w-sm mx-auto"
+                style={{ aspectRatio: "9/16" }}
+              >
+                <div className="absolute inset-0 rounded-lg overflow-hidden">
+                  <img
+                    src={reel.video}
+                    alt={reel.title}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-black/20" />
                 </div>
 
-                {/* Right: Actions */}
-                <div className="w-16 flex flex-col justify-end items-center pb-20 space-y-6">
-                  <button
-                    onClick={() => handleLike(index)}
-                    className="flex flex-col items-center space-y-1"
-                  >
-                    <div
-                      className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                        isLiked[index]
-                          ? "bg-red-500"
-                          : "bg-white/20 backdrop-blur"
-                      }`}
+                {/* Content Overlay */}
+                <div className="absolute inset-0 flex">
+                  {/* Left: Info */}
+                  <div className="flex-1 flex flex-col justify-end p-4 pb-6">
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-3">
+                        <Avatar className="w-10 h-10 border-2 border-white">
+                          <AvatarImage src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=50" />
+                          <AvatarFallback>ЮР</AvatarFallback>
+                        </Avatar>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-white font-semibold text-sm truncate">
+                            {reel.author}
+                          </p>
+                          <p className="text-gray-300 text-xs truncate">
+                            {reel.username}
+                          </p>
+                        </div>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="text-xs px-2 py-1"
+                        >
+                          Подписаться
+                        </Button>
+                      </div>
+
+                      <h3 className="text-white text-sm font-medium line-clamp-2">
+                        {reel.title}
+                      </h3>
+
+                      <p className="text-gray-300 text-xs">
+                        {reel.views} просмотров
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Right: Actions */}
+                  <div className="w-12 flex flex-col justify-end items-center pb-6 space-y-4">
+                    <button
+                      onClick={() => handleLike(index)}
+                      className="flex flex-col items-center space-y-1"
                     >
-                      <Icon
-                        name="Heart"
-                        size={20}
-                        className={isLiked[index] ? "text-white" : "text-white"}
-                      />
-                    </div>
-                    <span className="text-white text-xs">{likes[index]}</span>
-                  </button>
+                      <div
+                        className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                          isLiked[index]
+                            ? "bg-red-500"
+                            : "bg-white/20 backdrop-blur"
+                        }`}
+                      >
+                        <Icon
+                          name="Heart"
+                          size={18}
+                          className={
+                            isLiked[index] ? "text-white" : "text-white"
+                          }
+                        />
+                      </div>
+                      <span className="text-white text-xs">{likes[index]}</span>
+                    </button>
 
-                  <button className="flex flex-col items-center space-y-1">
-                    <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur flex items-center justify-center">
-                      <Icon
-                        name="MessageCircle"
-                        size={20}
-                        className="text-white"
-                      />
-                    </div>
-                    <span className="text-white text-xs">42</span>
-                  </button>
+                    <button className="flex flex-col items-center space-y-1">
+                      <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur flex items-center justify-center">
+                        <Icon
+                          name="MessageCircle"
+                          size={18}
+                          className="text-white"
+                        />
+                      </div>
+                      <span className="text-white text-xs">42</span>
+                    </button>
 
-                  <button className="flex flex-col items-center space-y-1">
-                    <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur flex items-center justify-center">
-                      <Icon name="Gift" size={20} className="text-white" />
-                    </div>
-                    <span className="text-white text-xs">Подарить</span>
-                  </button>
+                    <button className="flex flex-col items-center space-y-1">
+                      <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur flex items-center justify-center">
+                        <Icon name="Gift" size={18} className="text-white" />
+                      </div>
+                      <span className="text-white text-xs">🎁</span>
+                    </button>
 
-                  <button className="flex flex-col items-center space-y-1">
-                    <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur flex items-center justify-center">
-                      <Icon name="Share2" size={20} className="text-white" />
-                    </div>
-                  </button>
+                    <button className="flex flex-col items-center space-y-1">
+                      <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur flex items-center justify-center">
+                        <Icon name="Share2" size={18} className="text-white" />
+                      </div>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
